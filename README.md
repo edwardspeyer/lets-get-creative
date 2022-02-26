@@ -1,3 +1,1 @@
-# Let's Get Creative!
-
-<span font-size="600%">🗒️</span>
+# 🗒️ _Let's Get Creative!_
