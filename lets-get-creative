@@ -46,7 +46,12 @@ export TERM=$TARGET_TERM
 base64 -d <hi | zcat | jp2a --colors --color-depth=24 -
 
 cd "$TARGET_DIR"
-sudo -E -H -u $TARGET_USER -- $TARGET_SHELL -i
+sudo \
+  --preserve-env \
+  --set-home \
+  --user $TARGET_USER \
+  -- \
+  $TARGET_SHELL -i
 ...
 
 cat >$T/hi <<'...'
