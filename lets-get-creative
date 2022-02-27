@@ -5,6 +5,7 @@ trap "rm -rf $T" EXIT
 
 cat >$T/debian_packages <<...
 curl
+firefox
 fzf
 git
 git-lfs
