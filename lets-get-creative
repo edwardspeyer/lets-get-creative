@@ -93,6 +93,8 @@ docker run \
   --interactive \
   --mount "type=bind,source=$HOME,target=$HOME" \
   --mount "type=bind,source=$SSH_AUTH_SOCK,target=$SSH_AUTH_SOCK" \
+  --mount "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix" \
+  --env DISPLAY=$DISPLAY \
   --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
   --env TARGET_USER=$USER \
   --env TARGET_UID=$UID \
