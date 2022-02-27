@@ -29,6 +29,30 @@ en_US.UTF-8 UTF-8
 en_GB.UTF-8 UTF-8
 ...
 
+cat >$T/init <<'...'
+TARGET_USER=$1
+TARGET_UID=$2
+TARGET_HOME=$3
+TARGET_DIR=$4
+TARGET_SHELL=$5
+TARGET_TERM=$6
+
+adduser \
+  --gecos '' \
+  --disabled-password \
+  --uid $TARGET_UID \
+  --home $TARGET_HOME \
+  --no-create-home \
+  $TARGET_USER
+
+echo "$TARGET_USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$TARGET_USER
+
+export TERM=$TARGET_TERM
+
+cd "$TARGET_DIR"
+sudo -u $TARGET_USER -- $TARGET_SHELL -i
+...
+
 cat >$T/Dockerfile <<...
 FROM ubuntu:jammy
 
@@ -42,13 +66,14 @@ RUN pip3 install -r python_packages
 COPY locale.gen /etc/locale.gen
 RUN locale-gen
 
-RUN adduser --gecos '' --disabled-password --uid $UID $USER
-RUN echo '$USER ALL=(ALL:ALL) NOPASSWD:ALL' >/etc/sudoers.d/$USER
 
-CMD cd "$PWD" ; sudo -u $USER -- bash -i
+COPY init .
+CMD bash -i
 ...
 
 docker build --tag lets-get-creative $T
-docker run -ti \
-  --mount type=bind,source=$HOME,target=/home/$USER \
-  lets-get-creative
+docker run \
+  --tty \
+  --interactive \
+  --mount "type=bind,source=$HOME,target=$HOME" \
+  lets-get-creative bash init $USER $UID $HOME $PWD $SHELL $TERM
