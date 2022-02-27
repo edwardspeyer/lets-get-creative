@@ -43,13 +43,13 @@ echo "$TARGET_USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$TARGET_USER
 
 export TERM=$TARGET_TERM
 
-base64 -d <welldone | zcat | jp2a --colors --color-depth=24 -
+base64 -d <hi | zcat | jp2a --colors --color-depth=24 -
 
 cd "$TARGET_DIR"
 sudo -u $TARGET_USER -- $TARGET_SHELL -i
 ...
 
-cat >$T/welldone <<'...'
+cat >$T/hi <<'...'
 H4sICApjG2IAA3kuanBnAPt/4/8DBgEvN083BkZGBgZGIGT4f5vBmeE/pQBoCCPFhhxgEORgqGC4
 xswoyMAkyMgsyPj/CIM40KkgxyIBRiZmoIS8AEickYUZIckoqGjoGFjIJJQ4EahADEMjUCdIXBBT
 XPD/LQYeoElMgsyCDPYMZ9xWe51AVTKDjbGhgYuha2PQigawAPvxtWwHgDQzwwk2h+S9DAwODCxu
@@ -75,13 +75,14 @@ RUN pip3 install -r python_packages
 COPY locale.gen /etc/locale.gen
 RUN locale-gen
 
-COPY welldone .
+COPY hi .
 
 COPY init .
 CMD bash -i
 ...
 
 docker build --tag lets-get-creative $T
+
 docker run \
   --tty \
   --interactive \
