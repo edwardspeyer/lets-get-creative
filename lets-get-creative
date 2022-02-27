@@ -8,6 +8,7 @@ curl
 fzf
 git
 git-lfs
+jp2a
 locales
 python3-pip
 ripgrep
@@ -49,8 +50,23 @@ echo "$TARGET_USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$TARGET_USER
 
 export TERM=$TARGET_TERM
 
+base64 -d <welldone | zcat | jp2a --colors --color-depth=24 -
+
 cd "$TARGET_DIR"
 sudo -u $TARGET_USER -- $TARGET_SHELL -i
+...
+
+cat >$T/welldone <<'...'
+H4sICApjG2IAA3kuanBnAPt/4/8DBgEvN083BkZGBgZGIGT4f5vBmeE/pQBoCCPFhhxgEORgqGC4
+xswoyMAkyMgsyPj/CIM40KkgxyIBRiZmoIS8AEickYUZIckoqGjoGFjIJJQ4EahADEMjUCdIXBBT
+XPD/LQYeoElMgsyCDPYMZ9xWe51AVTKDjbGhgYuha2PQigawAPvxtWwHgDQzwwk2h+S9DAwODCxu
+DWu1FcCy3OpRXFxgFrPsCyCpoGTCDDWSOUAEYqTE5zdAUkBQijFpaSBYhG2BBkTK8PkNEHXKhOmo
+1yKwCG8D5+T7G4yYGjgn8DQsYAYbpHGBwWRNA1Q2j5HRgWUPo+UfVgaJBVBZnZBVQOc0ZKh94lvA
+AHUNyM1sgksZGEJTGIQdLRfs4OJrgMpNffRCZxfQ1cwclw7oMPCGrDzRPYWHlUFEGug5388a8vn1
+ByLrDUQYGLtPGFosALqQZ7G3gvCB1hlSZ0JyREUcDUtcnY/vABsHxBoGPDfviDE1MBj1mnUcfbWq
+9JXigktcGhxMiyq+i8pCrHQISGBIK3RcwMAyZ2nYhHRRE16FVV2MqzoXMJ27dxVoLQMLKzB2GtLu
+M2wKCDA0iTHxbFrFs0pBY8GCDq2OhjtzRUVEBMARaHdBYrvjSgMpFgdXUzfGEgYf1gcgCVlRhgCQ
+PAtb3QbOjwcygEz5/zcBGJnaWggDAAA=
 ...
 
 cat >$T/Dockerfile <<...
@@ -66,6 +82,7 @@ RUN pip3 install -r python_packages
 COPY locale.gen /etc/locale.gen
 RUN locale-gen
 
+COPY welldone .
 
 COPY init .
 CMD bash -i
