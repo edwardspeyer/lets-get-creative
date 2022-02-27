@@ -46,7 +46,7 @@ export TERM=$TARGET_TERM
 base64 -d <hi | zcat | jp2a --colors --color-depth=24 -
 
 cd "$TARGET_DIR"
-sudo -u $TARGET_USER -- $TARGET_SHELL -i
+sudo -E -H -u $TARGET_USER -- $TARGET_SHELL -i
 ...
 
 cat >$T/hi <<'...'
@@ -87,6 +87,8 @@ docker run \
   --tty \
   --interactive \
   --mount "type=bind,source=$HOME,target=$HOME" \
+  --mount "type=bind,source=$SSH_AUTH_SOCK,target=$SSH_AUTH_SOCK" \
+  --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
   --env TARGET_USER=$USER \
   --env TARGET_UID=$UID \
   --env TARGET_HOME=$HOME \
