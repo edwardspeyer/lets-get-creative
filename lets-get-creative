@@ -31,13 +31,6 @@ en_GB.UTF-8 UTF-8
 ...
 
 cat >$T/init <<'...'
-TARGET_USER=$1
-TARGET_UID=$2
-TARGET_HOME=$3
-TARGET_DIR=$4
-TARGET_SHELL=$5
-TARGET_TERM=$6
-
 adduser \
   --gecos '' \
   --disabled-password \
@@ -93,4 +86,10 @@ docker run \
   --tty \
   --interactive \
   --mount "type=bind,source=$HOME,target=$HOME" \
-  lets-get-creative bash init $USER $UID $HOME $PWD $SHELL $TERM
+  --env TARGET_USER=$USER \
+  --env TARGET_UID=$UID \
+  --env TARGET_HOME=$HOME \
+  --env TARGET_DIR=$PWD \
+  --env TARGET_SHELL=$SHELL \
+  --env TARGET_TERM=$TERM \
+  lets-get-creative bash init
