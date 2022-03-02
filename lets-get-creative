@@ -4,6 +4,7 @@ T=$(mktemp -d)
 trap "rm -rf $T" EXIT
 
 cat >$T/debian_packages <<...
+bash-completion
 curl
 firefox
 fzf
@@ -22,7 +23,10 @@ xz-utils
 
 cat >$T/python_packages <<...
 black
+python-gitlab
+git-python
 isort
+mdformat
 python-language-server
 ...
 
