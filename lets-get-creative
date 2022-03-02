@@ -89,12 +89,24 @@ CMD bash -i
 
 docker build --tag lets-get-creative $T
 
+mounts=(
+  --mount "type=bind,source=$HOME,target=$HOME"
+)
+
+if [ "$SSH_AUTH_SOCK" ]
+then
+  mounts+=( --mount "type=bind,source=$SSH_AUTH_SOCK,target=$SSH_AUTH_SOCK" )
+fi
+
+if [ -e /tmp/.X11-unix ]
+then
+  mounts+=( --mount "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix" )
+fi
+
 docker run \
   --tty \
   --interactive \
-  --mount "type=bind,source=$HOME,target=$HOME" \
-  --mount "type=bind,source=$SSH_AUTH_SOCK,target=$SSH_AUTH_SOCK" \
-  --mount "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix" \
+  "${mounts[@]}" \
   --env DISPLAY=$DISPLAY \
   --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
   --env TARGET_USER=$USER \
