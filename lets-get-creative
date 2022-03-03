@@ -24,10 +24,10 @@ xz-utils
 
 cat >$T/python_packages <<...
 black
-python-gitlab
 git-python
 isort
 mdformat
+python-gitlab
 python-language-server
 ...
 
