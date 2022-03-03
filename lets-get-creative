@@ -7,6 +7,7 @@ cat >$T/debian_packages <<...
 apt-file
 bash-completion
 curl
+dnsutils
 firefox
 fzf
 git
@@ -16,9 +17,12 @@ locales
 python3-pip
 ripgrep
 silversearcher-ag
+strace
 sudo
+tcpdump
 tmux
 vim
+w3m
 xz-utils
 ...
 
