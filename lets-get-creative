@@ -27,6 +27,9 @@ black
 git-python
 isort
 mdformat
+pycodestyle
+pylint
+pytest
 python-gitlab
 python-language-server
 ...
