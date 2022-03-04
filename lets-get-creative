@@ -103,26 +103,24 @@ COPY init .
 CMD bash init
 ...
 
+mount_options() {
+  for path in "$HOME" "$SSH_AUTH_SOCK" "/tmp/.X11-unix"
+  do
+    if [ -e "$path" ]
+    then
+      echo --mount "type=bind,source=$path,target=$path"
+    fi
+  done
+}
+
+set -e
+
 docker build --tag lets-get-creative $T
-
-mounts=(
-  --mount "type=bind,source=$HOME,target=$HOME"
-)
-
-if [ "$SSH_AUTH_SOCK" ]
-then
-  mounts+=( --mount "type=bind,source=$SSH_AUTH_SOCK,target=$SSH_AUTH_SOCK" )
-fi
-
-if [ -e /tmp/.X11-unix ]
-then
-  mounts+=( --mount "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix" )
-fi
 
 docker run \
   --tty \
   --interactive \
-  "${mounts[@]}" \
+  $(mount_options) \
   --env DISPLAY=$DISPLAY \
   --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
   --env TARGET_USER=$USER \
