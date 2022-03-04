@@ -12,6 +12,7 @@ firefox
 fzf
 git
 git-lfs
+iputils-ping
 jp2a
 locales
 python3-pip
