@@ -100,7 +100,7 @@ RUN locale-gen
 COPY hi .
 
 COPY init .
-CMD bash -i
+CMD bash init
 ...
 
 docker build --tag lets-get-creative $T
@@ -131,4 +131,4 @@ docker run \
   --env TARGET_DIR=$PWD \
   --env TARGET_SHELL=$SHELL \
   --env TARGET_TERM=$TERM \
-  lets-get-creative bash init
+  lets-get-creative
