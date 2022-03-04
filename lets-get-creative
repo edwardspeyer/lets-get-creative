@@ -3,6 +3,17 @@
 T=$(mktemp -d)
 trap "rm -rf $T" EXIT
 
+cat >$T/apt_sources <<...
+deb     http://ports.ubuntu.com/ubuntu-ports/ jammy           main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports/ jammy           main restricted universe multiverse
+deb     http://ports.ubuntu.com/ubuntu-ports/ jammy-updates   main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports/ jammy-updates   main restricted universe multiverse
+deb     http://ports.ubuntu.com/ubuntu-ports/ jammy-backports main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports/ jammy-backports main restricted universe multiverse
+deb     http://ports.ubuntu.com/ubuntu-ports/ jammy-security  main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports/ jammy-security  main restricted universe multiverse
+...
+
 cat >$T/debian_packages <<...
 apt-file
 bash-completion
@@ -85,8 +96,10 @@ PAtb3QbOjwcygEz5/zcBGJnaWggDAAA=
 cat >$T/Dockerfile <<...
 FROM ubuntu:jammy
 
-COPY debian_packages .
+COPY apt_sources /etc/apt/sources.list
 RUN apt update
+
+COPY debian_packages .
 RUN env DEBIAN_FRONTEND=noninteractive xargs apt install --yes <debian_packages
 
 RUN apt-file update
