@@ -148,6 +148,7 @@ docker build --tag lets-get-creative $T
 docker run \
   --tty \
   --interactive \
+  --rm \
   $(mount_options) \
   --env DISPLAY=$DISPLAY \
   --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
