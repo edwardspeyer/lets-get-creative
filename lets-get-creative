@@ -34,6 +34,7 @@ firefox
 fzf
 git
 git-lfs
+iproute2
 iputils-ping
 jp2a
 locales
