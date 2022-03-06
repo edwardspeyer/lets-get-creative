@@ -70,28 +70,30 @@ en_US.UTF-8 UTF-8
 en_GB.UTF-8 UTF-8
 ...
 
-cat >$T/init <<'...'
+cat >$T/setup_user <<...
 adduser \
   --gecos '' \
   --disabled-password \
-  --uid $TARGET_UID \
-  --home $TARGET_HOME \
+  --uid $UID \
+  --home $HOME \
   --no-create-home \
-  $TARGET_USER
+  $USER
 
-echo "$TARGET_USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$TARGET_USER
+echo "$USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$USER
+...
 
-export TERM=$TARGET_TERM
+cat >$T/init <<...
+export TERM=$TERM
 
 base64 -d <hi | zcat | jp2a --colors --color-depth=24 -
 
-cd "$TARGET_DIR"
+cd "$PWD"
 sudo \
   --preserve-env \
   --set-home \
-  --user $TARGET_USER \
+  --user $USER \
   -- \
-  $TARGET_SHELL -i
+  $SHELL -i
 ...
 
 cat >$T/hi <<'...'
@@ -126,8 +128,10 @@ RUN locale-gen
 
 COPY apt_conf /etc/apt/apt.conf.d/99_one_line_search_results.conf
 
-COPY hi .
+COPY setup_user .
+RUN bash setup_user
 
+COPY hi .
 COPY init .
 CMD bash init
 ...
@@ -153,10 +157,4 @@ docker run \
   $(mount_options) \
   --env DISPLAY=$DISPLAY \
   --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
-  --env TARGET_USER=$USER \
-  --env TARGET_UID=$UID \
-  --env TARGET_HOME=$HOME \
-  --env TARGET_DIR=$PWD \
-  --env TARGET_SHELL=$SHELL \
-  --env TARGET_TERM=$TERM \
   lets-get-creative
