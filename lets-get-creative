@@ -115,7 +115,7 @@ cat >$T/Dockerfile <<...
 FROM ubuntu:jammy
 
 COPY apt_sources /etc/apt/sources.list
-RUN apt update
+RUN apt update # seed 2022-03-10 10:00
 
 COPY debian_packages .
 RUN env DEBIAN_FRONTEND=noninteractive xargs apt install --yes <debian_packages
