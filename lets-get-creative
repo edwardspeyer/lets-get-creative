@@ -30,6 +30,7 @@ apt-file
 bash-completion
 curl
 dnsutils
+exuberant-ctags
 firefox
 fzf
 git
