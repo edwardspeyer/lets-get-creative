@@ -42,6 +42,7 @@ iputils-ping
 jp2a
 locales
 mutt
+ncdu
 python3-pip
 ripgrep
 silversearcher-ag
@@ -52,11 +53,13 @@ tmux
 ubuntu-standard
 vim
 w3m
+wajig
 wget
 xz-utils
 ...
 
 cat >$T/python_packages <<...
+ansicolors
 black
 git-python
 isort
