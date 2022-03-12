@@ -64,6 +64,7 @@ black
 git-python
 isort
 mdformat
+mypy
 pycodestyle
 pylint
 pytest
