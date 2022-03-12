@@ -28,6 +28,7 @@ Binary::apt::APT::Cache::Search::Version "1";
 cat >$T/debian_packages <<...
 apt-file
 bash-completion
+btop
 curl
 dnsutils
 exuberant-ctags
