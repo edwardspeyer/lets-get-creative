@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Build a development environment that feels like $HOME.
+#
 
 T=$(mktemp -d)
 trap "rm -rf $T" EXIT
