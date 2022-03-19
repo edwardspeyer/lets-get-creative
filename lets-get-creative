@@ -3,6 +3,8 @@
 # Build a development environment that feels like $HOME.
 #
 
+normalize_list() { sed -e 's/ *#.*//' | sort | uniq; }
+
 T=$(mktemp -d)
 trap "rm -rf $T" EXIT
 
@@ -28,7 +30,7 @@ cat >$T/apt_conf <<...
 Binary::apt::APT::Cache::Search::Version "1";
 ...
 
-cat >$T/debian_packages <<...
+normalize_list >$T/debian_packages <<...
 apt-file
 bash-completion
 btop
@@ -62,7 +64,7 @@ wget
 xz-utils
 ...
 
-cat >$T/python_packages <<...
+normalize_list >$T/python_packages <<...
 ansicolors
 black
 git-python
