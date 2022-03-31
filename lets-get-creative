@@ -84,36 +84,36 @@ en_US.UTF-8 UTF-8
 en_GB.UTF-8 UTF-8
 ...
 
-cat >$T/setup_user <<...
+cat >$T/setup_user <<'...'
 adduser \
   --gecos '' \
   --disabled-password \
-  --uid $UID \
-  --home $HOME \
+  --uid $IMAGE_UID \
+  --home $IMAGE_HOME \
   --no-create-home \
-  $USER
+  $IMAGE_USER
 
-for gid in $(id -G)
+for gid in $IMAGE_GROUP_IDS
 do
-  addgroup --gid \$gid creative_group_\$gid
-  usermod --append --groups creative_group_\$gid $USER
+  addgroup --gid $gid creative_group_$gid
+  usermod --append --groups creative_group_$gid $IMAGE_USER
 done
 
-echo "$USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$USER
+echo "$IMAGE_USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$IMAGE_USER
 ...
 
-cat >$T/init <<...
-export TERM=$TERM
+cat >$T/init <<'...'
+export TERM=$RUNTIME_TERM
 
 base64 -d <hi | zcat | jp2a --colors --color-depth=24 -
 
-cd "$PWD"
+cd "$RUNTIME_DIRECTORY"
 sudo \
   --preserve-env \
   --set-home \
-  --user $USER \
+  --user $RUNTIME_USER \
   -- \
-  $SHELL -i
+  $RUNTIME_SHELL -i
 ...
 
 cat >$T/hi <<'...'
@@ -129,8 +129,13 @@ M2wKCDA0iTHxbFrFs0pBY8GCDq2OhjtzRUVEBMARaHdBYrvjSgMpFgdXUzfGEgYf1gcgCVlRhgCQ
 PAtb3QbOjwcygEz5/zcBGJnaWggDAAA=
 ...
 
-cat >$T/Dockerfile <<...
+cat >$T/Dockerfile <<'...'
 FROM ubuntu:jammy
+
+ARG IMAGE_USER
+ARG IMAGE_HOME
+ARG IMAGE_UID
+ARG IMAGE_GROUP_IDS
 
 COPY apt_sources /etc/apt/sources.list
 COPY debian_packages .
@@ -168,7 +173,13 @@ mount_options() {
 
 set -e
 
-docker build --tag lets-get-creative $T
+docker build \
+  --build-arg IMAGE_USER=$USER \
+  --build-arg IMAGE_HOME=$HOME \
+  --build-arg IMAGE_UID=$UID \
+  --build-arg IMAGE_GROUP_IDS="$(id -G)" \
+  --tag lets-get-creative \
+  $T
 
 docker run \
   --tty \
@@ -177,4 +188,8 @@ docker run \
   $(mount_options) \
   --env DISPLAY=$DISPLAY \
   --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
+  --env RUNTIME_TERM=$TERM \
+  --env RUNTIME_DIRECTORY=$PWD \
+  --env RUNTIME_USER=$USER \
+  --env RUNTIME_SHELL=$SHELL \
   lets-get-creative
