@@ -194,13 +194,14 @@ already_running() {
   docker container inspect lets-get-creative >/dev/null 2>&1
 }
 
+if [ "$LETS_GET" = "CREATIVE" ]
+then
+  log "already running inside a container!"
+  exit 0
+fi
+
 if [ "$attach_to_existing" ]
 then
-  if [ "$LETS_GET" = "CREATIVE" ]
-  then
-    exit 0
-  fi
-
   if ! already_running
   then
     log "no existing container to attach to"
