@@ -52,6 +52,7 @@ iproute2
 iputils-ping
 jp2a
 locales
+man-db
 mutt
 ncdu
 python3-pip
@@ -141,11 +142,14 @@ ARG IMAGE_HOME
 ARG IMAGE_UID
 ARG IMAGE_GROUP_IDS
 
+RUN yes | unminimize
+
 COPY apt_sources /etc/apt/sources.list
 COPY debian_packages .
 RUN apt update && \
   env DEBIAN_FRONTEND=noninteractive xargs \
   apt install --yes <debian_packages
+
 
 RUN apt-file update
 
