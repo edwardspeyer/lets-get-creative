@@ -36,6 +36,7 @@ bash-completion
 btop
 curl
 dnsutils
+docker.io
 exuberant-ctags
 ffmpeg
 firefox
@@ -91,6 +92,12 @@ adduser \
   --home $HOME \
   --no-create-home \
   $USER
+
+for gid in $(id -G)
+do
+  addgroup --gid \$gid creative_group_\$gid
+  usermod --append --groups creative_group_\$gid $USER
+done
 
 echo "$USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$USER
 ...
@@ -150,7 +157,7 @@ CMD bash init
 ...
 
 mount_options() {
-  for path in "$HOME" "$SSH_AUTH_SOCK" "/tmp/.X11-unix"
+  for path in "$HOME" "$SSH_AUTH_SOCK" "/tmp/.X11-unix" "/var/run/docker.sock"
   do
     if [ -e "$path" ]
     then
