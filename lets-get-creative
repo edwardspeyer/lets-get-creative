@@ -4,6 +4,7 @@
 #
 
 normalize_list() { sed -e 's/ *#.*//' | sort | uniq; }
+log() { echo >&2 "$(basename "$0"): $*"; }
 
 T=$(mktemp -d)
 trap "rm -rf $T" EXIT
@@ -108,6 +109,7 @@ echo "$IMAGE_USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$IMAGE_USER
 ...
 
 cat >$T/init <<'...'
+export LETS_GET=CREATIVE
 export TERM=$RUNTIME_TERM
 
 base64 -d <hi | zcat | jp2a --colors --color-depth=24 -
@@ -181,6 +183,31 @@ mount_options() {
 
 set -e
 
+for arg in "$@"
+do
+  case $arg in
+    --attach) attach_to_existing=1;;
+  esac
+done
+
+already_running() {
+  docker container inspect lets-get-creative >/dev/null 2>&1
+}
+
+if [ "$attach_to_existing" ]
+then
+  if [ "$LETS_GET" = "CREATIVE" ]
+  then
+    exit 0
+  fi
+
+  if ! already_running
+  then
+    log "no existing container to attach to"
+    exit 0
+  fi
+fi
+
 docker build \
   --build-arg IMAGE_USER=$USER \
   --build-arg IMAGE_HOME=$HOME \
@@ -189,7 +216,7 @@ docker build \
   --tag lets-get-creative \
   $T
 
-if ! docker container inspect lets-get-creative 2>/dev/null
+if ! already_running
 then
   docker run \
     --name lets-get-creative \
