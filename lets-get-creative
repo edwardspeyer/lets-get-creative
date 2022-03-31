@@ -162,7 +162,7 @@ RUN bash setup_user
 
 COPY hi .
 COPY init .
-CMD bash init
+CMD sleep 9e9
 ...
 
 mount_options() {
@@ -185,15 +185,23 @@ docker build \
   --tag lets-get-creative \
   $T
 
-docker run \
+if ! docker container inspect lets-get-creative 2>/dev/null
+then
+  docker run \
+    --name lets-get-creative \
+    --detach \
+    --rm \
+    $(mount_options) \
+    lets-get-creative
+fi
+
+docker exec \
   --tty \
   --interactive \
-  --rm \
-  $(mount_options) \
   --env DISPLAY=$DISPLAY \
   --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
   --env RUNTIME_TERM=$TERM \
   --env RUNTIME_DIRECTORY=$PWD \
   --env RUNTIME_USER=$USER \
   --env RUNTIME_SHELL=$SHELL \
-  lets-get-creative
+  lets-get-creative sh init
