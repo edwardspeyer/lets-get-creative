@@ -8,22 +8,26 @@ normalize_list() { sed -e 's/ *#.*//' | sort | uniq; }
 T=$(mktemp -d)
 trap "rm -rf $T" EXIT
 
-if [ `uname -p` = 'arm' ]
-then
-  APT_URL="http://ports.ubuntu.com/ubuntu-ports/"
-else
-  APT_URL="http://archive.ubuntu.com/ubuntu/"
-fi
+normalize_list >$T/apt_sources <<'...'
+# Arm on M1
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy           main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy           main restricted universe multiverse
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-updates   main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-updates   main restricted universe multiverse
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-backports main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-backports main restricted universe multiverse
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-security  main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-security  main restricted universe multiverse
 
-cat >$T/apt_sources <<...
-deb     $APT_URL jammy           main restricted universe multiverse
-deb-src $APT_URL jammy           main restricted universe multiverse
-deb     $APT_URL jammy-updates   main restricted universe multiverse
-deb-src $APT_URL jammy-updates   main restricted universe multiverse
-deb     $APT_URL jammy-backports main restricted universe multiverse
-deb-src $APT_URL jammy-backports main restricted universe multiverse
-deb     $APT_URL jammy-security  main restricted universe multiverse
-deb-src $APT_URL jammy-security  main restricted universe multiverse
+# Everything else
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy           main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy           main restricted universe multiverse
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-updates   main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-updates   main restricted universe multiverse
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-backports main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-backports main restricted universe multiverse
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-security  main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-security  main restricted universe multiverse
 ...
 
 cat >$T/apt_conf <<...
