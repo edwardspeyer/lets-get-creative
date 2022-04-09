@@ -91,6 +91,7 @@ en_GB.UTF-8 UTF-8
 ...
 
 cat >$T/setup_user <<'...'
+# Create the user:
 adduser \
   --gecos '' \
   --disabled-password \
@@ -99,11 +100,23 @@ adduser \
   --no-create-home \
   $IMAGE_USER
 
-for gid in $IMAGE_GROUP_IDS
-do
-  addgroup --gid $gid creative_group_$gid
-  usermod --append --groups creative_group_$gid $IMAGE_USER
-done
+# Create all their groups:
+paste \
+  <(tr " " "\n" <<<"$IMAGE_GROUP_IDS") \
+  <(tr " " "\n" <<<"$IMAGE_GROUP_NAMES") |
+  while read group_id group_name
+  do
+    if getent group $group_name
+    then
+      group_name="creative_$group_name"
+    fi
+    addgroup --gid $group_id $group_name
+    usermod --append --groups $group_name $IMAGE_USER
+  done
+
+# Now that the groups exist, set the correct primary GID:
+gids=( $IMAGE_GROUP_IDS )
+usermod --gid "${gids[0]}" $IMAGE_USER
 
 echo "$IMAGE_USER ALL=(ALL:ALL) NOPASSWD:ALL" >/etc/sudoers.d/$IMAGE_USER
 ...
@@ -143,6 +156,7 @@ ARG IMAGE_USER
 ARG IMAGE_HOME
 ARG IMAGE_UID
 ARG IMAGE_GROUP_IDS
+ARG IMAGE_GROUP_NAMES
 
 RUN yes | unminimize
 
@@ -214,6 +228,7 @@ docker build \
   --build-arg IMAGE_HOME=$HOME \
   --build-arg IMAGE_UID=$UID \
   --build-arg IMAGE_GROUP_IDS="$(id -G)" \
+  --build-arg IMAGE_GROUP_NAMES="$(id -nG)" \
   --tag lets-get-creative \
   $T
 
