@@ -91,6 +91,8 @@ en_GB.UTF-8 UTF-8
 ...
 
 cat >$T/setup_user <<'...'
+set -x
+
 # Create the user:
 adduser \
   --gecos '' \
@@ -106,6 +108,12 @@ paste \
   <(tr " " "\n" <<<"$IMAGE_GROUP_NAMES") |
   while read group_id group_name
   do
+    if getent group $group_id
+    then
+      usermod --append --groups $group_id $IMAGE_USER
+      continue
+    fi
+
     if getent group $group_name
     then
       group_name="creative_$group_name"
