@@ -74,6 +74,7 @@ xz-utils
 normalize_list >$T/python_packages <<...
 ansicolors
 black
+docker-compose
 git-python
 isort
 mdformat
