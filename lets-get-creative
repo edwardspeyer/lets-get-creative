@@ -52,6 +52,7 @@ git-lfs
 iproute2
 iputils-ping
 jp2a
+less
 locales
 man-db
 mutt
@@ -173,8 +174,10 @@ COPY apt_sources /etc/apt/sources.list
 COPY debian_packages .
 RUN apt update && \
   env DEBIAN_FRONTEND=noninteractive xargs \
-  apt install --yes <debian_packages
-
+  apt install \
+    --yes \
+    --no-install-recommends \
+    <debian_packages
 
 RUN apt-file update
 
