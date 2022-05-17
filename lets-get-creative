@@ -40,6 +40,7 @@ apt-file
 bash-completion
 btop
 curl
+dc
 dnsutils
 docker.io
 exuberant-ctags
