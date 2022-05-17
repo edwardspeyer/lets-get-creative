@@ -54,6 +54,7 @@ iproute2
 iputils-ping
 jp2a
 less
+jq
 locales
 man-db
 mutt
