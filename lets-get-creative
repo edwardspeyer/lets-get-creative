@@ -43,6 +43,7 @@ curl
 dc
 dnsutils
 docker.io
+dpkg-dev
 exuberant-ctags
 ffmpeg
 firefox
