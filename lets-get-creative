@@ -202,7 +202,12 @@ CMD sleep 9e9
 ...
 
 mount_options() {
-  for path in "$HOME" "$SSH_AUTH_SOCK" "/tmp/.X11-unix" "/var/run/docker.sock"
+  for path in                 \
+    "$HOME"                   \
+    "$SSH_AUTH_SOCK"          \
+    "/tmp"                    \
+    "/var/run/docker.sock"    \
+    ;
   do
     if [ -e "$path" ]
     then
