@@ -195,8 +195,6 @@ COPY apt_conf /etc/apt/apt.conf.d/99_one_line_search_results.conf
 COPY setup_user .
 RUN bash setup_user
 
-RUN rm -rf /var/lib/apt/lists/*
-
 COPY hi .
 COPY init .
 CMD sleep 9e9
