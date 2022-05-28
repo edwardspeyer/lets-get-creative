@@ -60,6 +60,7 @@ locales
 man-db
 mutt
 ncdu
+postgresql-client
 python3-pip
 ripgrep
 silversearcher-ag
