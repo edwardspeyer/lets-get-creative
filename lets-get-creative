@@ -64,6 +64,7 @@ postgresql-client
 python3-pip
 ripgrep
 silversearcher-ag
+sqlite3
 strace
 sudo
 tcpdump
