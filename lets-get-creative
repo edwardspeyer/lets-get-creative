@@ -206,6 +206,7 @@ mount_options() {
   for path in                 \
     "$HOME"                   \
     "$SSH_AUTH_SOCK"          \
+    "/data"                   \
     "/tmp"                    \
     "/var/run/docker.sock"    \
     ;
