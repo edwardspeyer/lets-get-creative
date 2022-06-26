@@ -148,7 +148,7 @@ sudo \
   --set-home \
   --user $RUNTIME_USER \
   -- \
-  $RUNTIME_SHELL -i
+  fish -i
 ...
 
 cat >$T/hi <<'...'
@@ -274,5 +274,4 @@ docker exec \
   --env RUNTIME_TERM=$TERM \
   --env RUNTIME_DIRECTORY=$PWD \
   --env RUNTIME_USER=$USER \
-  --env RUNTIME_SHELL=$SHELL \
   lets-get-creative sh init
