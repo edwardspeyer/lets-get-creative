@@ -259,6 +259,7 @@ if ! already_running
 then
   docker run \
     --name lets-get-creative \
+    --hostname lets.get.creative.$(hostname --fqdn) \
     --detach \
     --rm \
     $(mount_options) \
