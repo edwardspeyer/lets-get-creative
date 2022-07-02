@@ -148,7 +148,7 @@ sudo \
   --set-home \
   --user $RUNTIME_USER \
   -- \
-  fish -i
+  bash -i
 ...
 
 cat >$T/hi <<'...'
@@ -209,6 +209,7 @@ mount_options() {
     "/data"                   \
     "/tmp"                    \
     "/var/run/docker.sock"    \
+    "/volatile"               \
     ;
   do
     if [ -e "$path" ]
