@@ -71,6 +71,7 @@ sudo
 tcpdump
 tmux
 ubuntu-standard
+units
 vim-gtk  # Terminal vim with lua support
 w3m
 wajig
