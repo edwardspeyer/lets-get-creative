@@ -39,6 +39,7 @@ normalize_list >$T/debian_packages <<...
 apt-file
 bash-completion
 btop
+ccze
 curl
 dc
 dnsutils
