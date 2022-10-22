@@ -11,24 +11,24 @@ trap "rm -rf $T" EXIT
 
 normalize_list >$T/apt_sources <<'...'
 # Arm on M1
-deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy           main restricted universe multiverse
-deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy           main restricted universe multiverse
-deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-updates   main restricted universe multiverse
-deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-updates   main restricted universe multiverse
-deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-backports main restricted universe multiverse
-deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-backports main restricted universe multiverse
-deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-security  main restricted universe multiverse
-deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ jammy-security  main restricted universe multiverse
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic           main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic           main restricted universe multiverse
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic-updates   main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic-updates   main restricted universe multiverse
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic-backports main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic-backports main restricted universe multiverse
+deb     [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic-security  main restricted universe multiverse
+deb-src [arch=arm64] http://ports.ubuntu.com/ubuntu-ports/ kinetic-security  main restricted universe multiverse
 
 # Everything else
-deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy           main restricted universe multiverse
-deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy           main restricted universe multiverse
-deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-updates   main restricted universe multiverse
-deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-updates   main restricted universe multiverse
-deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-backports main restricted universe multiverse
-deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-backports main restricted universe multiverse
-deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-security  main restricted universe multiverse
-deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    jammy-security  main restricted universe multiverse
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic           main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic           main restricted universe multiverse
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic-updates   main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic-updates   main restricted universe multiverse
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic-backports main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic-backports main restricted universe multiverse
+deb     [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic-security  main restricted universe multiverse
+deb-src [arch-=arm64] http://archive.ubuntu.com/ubuntu/    kinetic-security  main restricted universe multiverse
 ...
 
 cat >$T/apt_conf <<...
@@ -72,7 +72,7 @@ tcpdump
 tmux
 ubuntu-standard
 units
-vim-gtk  # Terminal vim with lua support
+vim-gtk3  # Terminal vim with lua support
 w3m
 wajig
 wget
@@ -167,7 +167,7 @@ PAtb3QbOjwcygEz5/zcBGJnaWggDAAA=
 ...
 
 cat >$T/Dockerfile <<'...'
-FROM ubuntu:jammy
+FROM ubuntu:kinetic
 
 ARG IMAGE_USER
 ARG IMAGE_HOME
