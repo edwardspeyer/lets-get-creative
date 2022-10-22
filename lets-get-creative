@@ -3,7 +3,7 @@
 # Build a development environment that feels like $HOME.
 #
 
-normalize_list() { sed -e 's/ *#.*//' | sort | uniq; }
+normalize_list() { sed -e 's/ *#.*//' | LC_ALL=C sort | uniq; }
 log() { echo >&2 "$(basename "$0"): $*"; }
 
 T=$(mktemp -d)
