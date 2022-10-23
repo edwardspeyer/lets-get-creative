@@ -87,6 +87,7 @@ git-python
 isort
 mdformat
 mypy
+pre_commit
 pycodestyle
 pylint
 pytest
