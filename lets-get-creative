@@ -234,17 +234,17 @@ then
   exit 0
 fi
 
-docker build \
-  --build-arg IMAGE_USER=$USER \
-  --build-arg IMAGE_HOME=$HOME \
-  --build-arg IMAGE_UID=$UID \
-  --build-arg IMAGE_GROUP_IDS="$(id -G)" \
-  --build-arg IMAGE_GROUP_NAMES="$(id -nG)" \
-  --tag lets-get-creative \
-  $T
-
 if ! already_running
 then
+  docker build \
+    --build-arg IMAGE_USER=$USER \
+    --build-arg IMAGE_HOME=$HOME \
+    --build-arg IMAGE_UID=$UID \
+    --build-arg IMAGE_GROUP_IDS="$(id -G)" \
+    --build-arg IMAGE_GROUP_NAMES="$(id -nG)" \
+    --tag lets-get-creative \
+    $T
+
   docker run \
     --name lets-get-creative \
     --hostname lets.get.creative.$(hostname --fqdn) \
