@@ -277,4 +277,5 @@ docker exec \
   --env RUNTIME_TERM=$TERM \
   --env RUNTIME_DIRECTORY=$PWD \
   --env RUNTIME_USER=$USER \
+  --env TMUX=$TMUX \
   lets-get-creative sh init
