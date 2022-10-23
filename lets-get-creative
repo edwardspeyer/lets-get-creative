@@ -273,10 +273,10 @@ docker exec \
   --tty \
   --interactive \
   --env DISPLAY=$DISPLAY \
-  --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
-  --env RUNTIME_TERM=$TERM \
   --env RUNTIME_DIRECTORY=$PWD \
-  --env RUNTIME_USER=$USER \
-  --env TMUX=$TMUX \
   --env RUNTIME_HOSTNAME=$HOSTNAME \
+  --env RUNTIME_TERM=$TERM \
+  --env RUNTIME_USER=$USER \
+  --env SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
+  --env TMUX=$TMUX \
   lets-get-creative sh init
