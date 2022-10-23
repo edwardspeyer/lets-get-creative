@@ -224,13 +224,6 @@ mount_options() {
 
 set -e
 
-for arg in "$@"
-do
-  case $arg in
-    --attach) attach_to_existing=1;;
-  esac
-done
-
 already_running() {
   docker container inspect lets-get-creative >/dev/null 2>&1
 }
@@ -239,15 +232,6 @@ if [ "$LETS_GET" = "CREATIVE" ]
 then
   log "already running inside a container!"
   exit 0
-fi
-
-if [ "$attach_to_existing" ]
-then
-  if ! already_running
-  then
-    log "no existing container to attach to"
-    exit 0
-  fi
 fi
 
 docker build \
